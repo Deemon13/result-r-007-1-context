@@ -18,12 +18,12 @@ export const TodoItem = ({
 			}`}
 			id={id}
 		>
-			<div>
+			<div className={styles.todoInfo__container}>
 				<p className={styles.todo__user}>User: {userId}</p>
 				<p className={styles.todo__title}>{title}</p>
 			</div>
 
-			<div>
+			<div className={styles.todoBTN__container}>
 				<button
 					className={styles.todo__BTN}
 					type="button"

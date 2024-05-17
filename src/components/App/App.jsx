@@ -48,12 +48,17 @@ export const App = () => {
 		setIsChanging(true);
 	};
 
+	const sliceTitle = title => {
+		return title.length > 10 ? title.slice(0, 10) + '...' : title;
+	};
+
 	return (
 		<div className={styles.app}>
 			<FormCreateTodo onSubmit={createTodo} isCreating={isCreating} />
 			<Filter value={filter} onChange={e => handleFilter(e)} />
 			<Sorter onClick={handleSort} disabled={filter} title="По алфавиту!" />
 			<div className={styles.todos}>
+				<h2 className={styles.todos__title}>Todo list</h2>
 				{isLoading ? (
 					<Loader />
 				) : (
@@ -62,7 +67,7 @@ export const App = () => {
 							<TodoItem
 								key={id}
 								userId={userId}
-								title={title}
+								title={sliceTitle(title)}
 								completed={completed}
 								onClick={deleteTodo}
 								changeTodo={requestTochangeTodo}

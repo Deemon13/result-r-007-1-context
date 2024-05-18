@@ -1,10 +1,14 @@
-import PropTypes from 'prop-types';
+import { useContext } from 'react';
+
+import { AppContext } from '../../context';
 
 import styles from './formCreateTodo.module.css';
 
-export const FormCreateTodo = ({ onSubmit, isCreating }) => {
+export const FormCreateTodo = () => {
+	const { createTodo, isCreating } = useContext(AppContext);
+
 	return (
-		<form onSubmit={onSubmit} className={styles.createTodo__form}>
+		<form onSubmit={createTodo} className={styles.createTodo__form}>
 			<div className={styles.createTodo__container}>
 				<label htmlFor="todo" className={styles.createTodo__label}>
 					Добавление задачи:
@@ -27,9 +31,4 @@ export const FormCreateTodo = ({ onSubmit, isCreating }) => {
 			</div>
 		</form>
 	);
-};
-
-FormCreateTodo.propTypes = {
-	onSubmit: PropTypes.func,
-	isCreating: PropTypes.bool,
 };

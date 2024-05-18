@@ -1,5 +1,6 @@
 import { useState } from 'react';
-import styles from './app.module.css';
+
+import { AppContext } from '../../context';
 
 import {
 	FormCreateTodo,
@@ -18,6 +19,8 @@ import {
 	useSort,
 	useFilter,
 } from '../../hooks';
+
+import styles from './app.module.css';
 
 export const App = () => {
 	const [isChanging, setIsChanging] = useState(false);
@@ -52,33 +55,44 @@ export const App = () => {
 		return title.length > 10 ? title.slice(0, 10) + '...' : title;
 	};
 
+	const data = {
+		createTodo,
+		isCreating,
+		handleSort,
+		filter,
+		submitChanges,
+		handleFilter,
+		deleteTodo,
+		requestTochangeTodo,
+		isDeleting,
+	};
+
 	return (
-		<div className={styles.app}>
-			<FormCreateTodo onSubmit={createTodo} isCreating={isCreating} />
-			<Filter value={filter} onChange={e => handleFilter(e)} />
-			<Sorter onClick={handleSort} disabled={filter} title="По алфавиту!" />
-			<div className={styles.todos}>
-				<h2 className={styles.todos__title}>Todo list</h2>
-				{isLoading ? (
-					<Loader />
-				) : (
-					(filter ? filteredTodos : sortBy ? sortedTodos : todos).map(
-						({ id, userId, title, completed }) => (
-							<TodoItem
-								key={id}
-								userId={userId}
-								title={sliceTitle(title)}
-								completed={completed}
-								onClick={deleteTodo}
-								changeTodo={requestTochangeTodo}
-								id={id}
-								deleting={isDeleting}
-							/>
-						),
-					)
-				)}
+		<AppContext.Provider value={data}>
+			<div className={styles.app}>
+				<FormCreateTodo />
+				<Filter />
+				<Sorter title="По алфавиту!" />
+				<div className={styles.todos}>
+					<h2 className={styles.todos__title}>Todo list</h2>
+					{isLoading ? (
+						<Loader />
+					) : (
+						(filter ? filteredTodos : sortBy ? sortedTodos : todos).map(
+							({ id, userId, title, completed }) => (
+								<TodoItem
+									key={id}
+									userId={userId}
+									title={sliceTitle(title)}
+									completed={completed}
+									id={id}
+								/>
+							),
+						)
+					)}
+				</div>
+				{isChanging && <TodoChanger title="Меняем!" />}
 			</div>
-			{isChanging && <TodoChanger onSubmit={submitChanges} title="Меняем!" />}
-		</div>
+		</AppContext.Provider>
 	);
 };

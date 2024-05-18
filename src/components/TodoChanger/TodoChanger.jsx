@@ -1,10 +1,15 @@
+import { useContext } from 'react';
 import PropTypes from 'prop-types';
+
+import { AppContext } from '../../context';
 
 import styles from './todoChanger.module.css';
 
-export const TodoChanger = ({ onSubmit, title }) => {
+export const TodoChanger = ({ title }) => {
+	const { submitChanges } = useContext(AppContext);
+
 	return (
-		<form onSubmit={onSubmit} className={styles.todoChanger__form}>
+		<form onSubmit={submitChanges} className={styles.todoChanger__form}>
 			<div className={styles.todoChanger__container}>
 				<label htmlFor="changeTodo" className={styles.todoChanger__label}>
 					Изменить Title:
@@ -24,6 +29,5 @@ export const TodoChanger = ({ onSubmit, title }) => {
 };
 
 TodoChanger.propTypes = {
-	onSubmit: PropTypes.func,
 	title: PropTypes.string,
 };

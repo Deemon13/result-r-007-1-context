@@ -1,16 +1,13 @@
+import { useContext } from 'react';
 import PropTypes from 'prop-types';
+
+import { AppContext } from '../../context';
 
 import styles from './todoItem.module.css';
 
-export const TodoItem = ({
-	userId,
-	title,
-	completed,
-	onClick,
-	id,
-	deleting,
-	changeTodo,
-}) => {
+export const TodoItem = ({ userId, title, completed, id }) => {
+	const { deleteTodo, requestTochangeTodo, isDeleting } = useContext(AppContext);
+
 	return (
 		<div
 			className={`${styles.todo__item} ${
@@ -27,15 +24,15 @@ export const TodoItem = ({
 				<button
 					className={styles.todo__BTN}
 					type="button"
-					onClick={() => changeTodo(id)}
+					onClick={() => requestTochangeTodo(id)}
 				>
 					Изменить
 				</button>
 				<button
 					className={styles.todo__BTN}
 					type="button"
-					disabled={deleting}
-					onClick={() => onClick(id)}
+					disabled={isDeleting}
+					onClick={() => deleteTodo(id)}
 				>
 					Удалить
 				</button>
@@ -48,8 +45,5 @@ TodoItem.propTypes = {
 	userId: PropTypes.number,
 	title: PropTypes.string,
 	completed: PropTypes.bool,
-	onClick: PropTypes.func,
-	changeTodo: PropTypes.func,
 	id: PropTypes.number,
-	deleting: PropTypes.bool,
 };

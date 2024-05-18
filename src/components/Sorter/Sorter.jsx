@@ -1,14 +1,19 @@
+import { useContext } from 'react';
 import PropTypes from 'prop-types';
+
+import { AppContext } from '../../context';
 
 import styles from './sorter.module.css';
 
-export const Sorter = ({ onClick, disabled, title }) => {
+export const Sorter = ({ title }) => {
+	const { handleSort, filter } = useContext(AppContext);
+
 	return (
 		<div className={styles.sorter__container}>
 			<button
 				type="button"
-				onClick={onClick}
-				disabled={disabled}
+				onClick={handleSort}
+				disabled={filter}
 				className={styles.sorter}
 			>
 				{title}
@@ -18,7 +23,5 @@ export const Sorter = ({ onClick, disabled, title }) => {
 };
 
 Sorter.propTypes = {
-	onClick: PropTypes.func,
-	disabled: PropTypes.string,
 	title: PropTypes.string,
 };

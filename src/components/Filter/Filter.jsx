@@ -1,8 +1,12 @@
-import PropTypes from 'prop-types';
+import { useContext } from 'react';
+
+import { AppContext } from '../../context';
 
 import styles from './filter.module.css';
 
-export const Filter = ({ value, onChange }) => {
+export const Filter = () => {
+	const { filter, handleFilter } = useContext(AppContext);
+
 	return (
 		<form className={styles.filter}>
 			<div className={styles.filter__container}>
@@ -13,17 +17,12 @@ export const Filter = ({ value, onChange }) => {
 					id="filter"
 					type="text"
 					name="filter"
-					value={value}
-					onChange={onChange}
+					value={filter}
+					onChange={e => handleFilter(e)}
 					placeholder="Что ищем?"
 					className={styles.filter__input}
 				/>
 			</div>
 		</form>
 	);
-};
-
-Filter.propTypes = {
-	value: PropTypes.string,
-	onChange: PropTypes.func,
 };
